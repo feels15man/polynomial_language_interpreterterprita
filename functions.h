@@ -33,48 +33,38 @@ int print_0_pow_or_no(POLYNOMIAL_STRUCT *p){
 }
 
 void print_polynom(POLYNOMIAL_STRUCT *p){
-    if (!p->var){
-        printf("(Polynom has no var)\n");
-    }
+    // if (!p->var){
+    //     printf("(Polynom has no var)\n");
+    // }
     int f = 0;
-    for(int i = MAX_POLY_POWER - 1; i > 1 ; i--){
-        if (!f){
-            if (p->coef_arr[i] && p->coef_arr[i] != 1 && p->coef_arr[i] != -1)
-                printf("%lld%c^%d " , p->coef_arr[i], p->var, i);
-            else if (p->coef_arr[i] == 1)
-                printf("%c^%d ", p->var, i);
-            else if (p->coef_arr[i] == -1)
-                printf("-%c^%d ", p->var, i);
-            else
-                continue;
-            f = 1;
+    for(int i = MAX_POLY_POWER - 1; i >= 0 ; i--){
+        if (!i && !p->coef_arr[i] && !f)
+            printf("0");
+        else if (!p->coef_arr[i])
             continue;
-        }
-        if (p->coef_arr[i] && p->coef_arr[i] != 1 && p->coef_arr[i] != -1)
-            printf(p->coef_arr[i] > 0 ? "+%lld%c^%d ": "%lld%c^%d " , p->coef_arr[i], p->var, i);
-        else if (p->coef_arr[i] == 1)
-            printf("%c^%d ", p->var, i);
-        else if (p->coef_arr[i] == -1)
-            printf("- %c^%d ", p->var, i);
-    }
-    if (!f){
-        if (p->coef_arr[1] && p->coef_arr[1] != 1 && p->coef_arr[1] != -1)
-        printf("%lld%c " , p->coef_arr[1], p->var);
-    else if (p->coef_arr[1] == 1)
-        printf("%c ", p->var);
-    else if (p->coef_arr[1] == -1)
-        printf("- %c ", p->var);
-    }
-    else
-   { if (p->coef_arr[1] && p->coef_arr[1] != 1 && p->coef_arr[1] != -1)
-        printf(p->coef_arr[1] > 0 ? "+%lld%c ": "%lld%c " , p->coef_arr[1], p->var);
-    else if (p->coef_arr[1] == 1)
-        printf("%c ", p->var);
-    else if (p->coef_arr[1] == -1)
-        printf("- %c ", p->var);}
 
-    if (p->coef_arr[0] || print_0_pow_or_no(p))
-        print_number(p);
+        //sign
+        if (p->coef_arr[i] < 0)
+            printf("-");
+        else if (f)
+            printf("+");
+
+        //coef
+        if (p->coef_arr[i] != 1 && p->coef_arr[i] != -1)
+            printf("%llu", (unsigned long long) p->coef_arr[i]);
+        else if(!i)
+            printf("1");
+
+        //var
+        if (i > 0)
+            printf("%c", p->var);
+
+        //power
+        if (i > 1)
+            printf("^%d", i);
+        
+        f = 1;
+    }
     printf("\n");
 }
 
